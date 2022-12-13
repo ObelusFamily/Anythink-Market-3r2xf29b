@@ -2,6 +2,7 @@ export const APP_LOAD = "APP_LOAD";
 export const REDIRECT = "REDIRECT";
 export const ITEM_SUBMITTED = "ITEM_SUBMITTED";
 export const SETTINGS_SAVED = "SETTINGS_SAVED";
+export const SET_ITEMS="SET_ITEMS";
 export const DELETE_ITEM = "DELETE_ITEM";
 export const SETTINGS_PAGE_UNLOADED = "SETTINGS_PAGE_UNLOADED";
 export const HOME_PAGE_LOADED = "HOME_PAGE_LOADED";
