@@ -37,7 +37,7 @@ const reducer = (state = {}, action) => {
         itemsCount: action.payload.itemsCount,
         title: action.title,
         currentPage: 0,
-      }
+      };
     case SET_PAGE:
       return {
         ...state,

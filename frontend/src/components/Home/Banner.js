@@ -8,7 +8,7 @@ const Banner = (props) => {
     const text = e.target.value
     setSearchText(text)
 
-    if(text.length >= 3) {
+    if (text.length >= 3) {
       props.onSearchByTitle(text)
     }
   }
