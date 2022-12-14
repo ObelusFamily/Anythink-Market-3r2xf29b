@@ -1,15 +1,5 @@
 import React, {useState} from "react";
 import logo from "../../imgs/logo.png";
-import agent from "../../agent";
-import { connect } from "react-redux";
-import { SET_ITEMS } from "../../constants/actionTypes";
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit: (searchText) => {
-    const items = agent.Items.byTitle(searchText);
-    dispatch({type: SET_ITEMS, payload: items})
-  }
-})
 
 const Banner = (props) => {
   const [searchText, setSearchText]=useState("")
@@ -19,7 +9,7 @@ const Banner = (props) => {
     setSearchText(text)
 
     if(text.length>=3){
-      props.onSubmit(text)  
+      props.onSearchByTitle(text)
     }
   }
 
@@ -30,7 +20,7 @@ const Banner = (props) => {
         <div>
           <span>A place to </span>
           <span id="get-part">get</span>
-          <input type="text" id="search-box" value={searchText} onChange={handleChange}/>          
+          <input type="text" id="search-box" value={searchText} onChange={handleChange}/>
           <span> the cool stuff.</span>
         </div>
       </div>
@@ -38,6 +28,4 @@ const Banner = (props) => {
   );
 };
 
-// export default Banner;
-
-export default connect(null, mapDispatchToProps)(Banner);
+export default Banner;

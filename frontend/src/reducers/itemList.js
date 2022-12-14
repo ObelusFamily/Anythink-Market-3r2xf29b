@@ -34,7 +34,9 @@ const reducer = (state = {}, action) => {
       return {
         ...state,
         items: action.payload.items,
-        itemsCount: action.payload.itemsCount
+        itemsCount: action.payload.itemsCount,
+        title: action.title,
+        currentPage: 0,
       }
     case SET_PAGE:
       return {
