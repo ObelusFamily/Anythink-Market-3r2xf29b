@@ -8,7 +8,7 @@ import {
   HOME_PAGE_LOADED,
   HOME_PAGE_UNLOADED,
   APPLY_TAG_FILTER,
-  SET_ITEMS
+  SET_ITEMS,
 } from "../../constants/actionTypes";
 
 const Promise = global.Promise;
@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch({ type: APPLY_TAG_FILTER, tag, pager, payload }),
   onSearchByTitle: (title) => {
     const items = agent.Items.byTitle(title);
-    dispatch({ type: SET_ITEMS, title, payload: items })
+    dispatch({ type: SET_ITEMS, title, payload: items });
   },
   onLoad: (tab, pager, payload) =>
     dispatch({ type: HOME_PAGE_LOADED, tab, pager, payload }),

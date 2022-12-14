@@ -10,7 +10,7 @@ import {
   PROFILE_PAGE_UNLOADED,
   PROFILE_FAVORITES_PAGE_LOADED,
   PROFILE_FAVORITES_PAGE_UNLOADED,
-  SET_ITEMS
+  SET_ITEMS,
 } from "../constants/actionTypes";
 
 const reducer = (state = {}, action) => {
