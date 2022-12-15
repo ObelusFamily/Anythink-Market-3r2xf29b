@@ -47,12 +47,21 @@ class Item extends React.Component {
         <div className="text-dark">
           <div className="row bg-white p-4">
             <div className="col-6">
-              <img
-                src={this.props.item.image}
-                alt={this.props.item.title}
-                className="item-img"
-                style={{ height: "500px", width: "100%", borderRadius: "6px" }}
-              />
+              {!this.props.item.image ? (
+                <img
+                  alt="item"
+                  src="/placeholder.png"
+                  className="card-img-top item-img"
+                  style={{ borderRadius: "20px" }}
+                />
+              ) : (
+                <img
+                  src={this.props.item.image}
+                  alt={this.props.item.title}
+                  className="item-img"
+                  style={{ height: "500px", width: "100%", borderRadius: "6px" }}
+                />
+                )}
             </div>
 
             <div className="col-6">
