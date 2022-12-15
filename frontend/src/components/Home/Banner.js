@@ -3,6 +3,7 @@ import logo from "../../imgs/logo.png";
 
 const Banner = (props) => {
   const [searchText, setSearchText] = useState("");
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
   const handleChange = (e) => {
     const text = e.target.value;
@@ -19,13 +20,17 @@ const Banner = (props) => {
         <img src={logo} alt="banner" />
         <div>
           <span>A place to </span>
-          <span id="get-part">get</span>
-          <input
-            type="text"
-            id="search-box"
-            value={searchText}
-            onChange={handleChange}
-          />
+          <span id="get-part" onClick={() => setShowSearchBar(true)}>
+            get
+          </span>
+          {showSearchBar ? (
+            <input
+              type="text"
+              id="search-box"
+              value={searchText}
+              onChange={handleChange}
+            />
+          ) : null}
           <span> the cool stuff.</span>
         </div>
       </div>
