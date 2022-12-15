@@ -13,7 +13,17 @@ import {
   SET_ITEMS,
 } from "../constants/actionTypes";
 
-const reducer = (state = {}, action) => {
+const initialState = {
+  items: [],
+  itemsCount: 0,
+  title: "",
+  currentPage: 0,
+  pager: null,
+  tab: "",
+  tags: [],
+};
+
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ITEM_FAVORITED:
     case ITEM_UNFAVORITED:
