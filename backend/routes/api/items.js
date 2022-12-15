@@ -145,7 +145,7 @@ router.post("/", auth.required, function(req, res, next) {
       }
 
       if (typeof req.body.item.image !== "undefined") {
-        req.item.image = "placeholder.png";
+        req.body.item.image = "placeholder.png";
       }
 
       var item = new Item(req.body.item);
