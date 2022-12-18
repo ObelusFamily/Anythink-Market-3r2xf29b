@@ -1,1 +1,1 @@
-grep -i "@amazon" $1 | awk -F',' '{print $2, $1}'
+grep -i "@amazon" $1 | awk -F',' '{print $2, $3}'
