@@ -1,1 +1,1 @@
-grep -i "@amazon" MOCK_DATA.csv | awk -F',' '{print $3, $2}'
+grep -i "@amazon" $1 | awk -F',' '{print $3, $2}'
