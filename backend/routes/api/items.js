@@ -149,7 +149,7 @@ router.post("/", auth.required, function(req, res, next) {
         return res.sendStatus(401);
       }
 
-      if (typeof req.body.item.image !== "undefined") {
+      if (typeof req.body.item.image === "undefined") {
         const response = await openai.createImage({
           prompt: req.body.item.title,
           n: 1,
