@@ -54,8 +54,10 @@ router.get("/", auth.optional, function(req, res, next) {
   }
 
   Promise.all([
-    req.query.seller ? User.findOne({ username: req.query.seller }) : null,
-    req.query.favorited ? User.findOne({ username: req.query.favorited }) : null
+    req.query.seller ? User.findOne({ username: req.query.seller })
+      .select({ _id: 1 }).lean() : null,
+    req.query.favorited ? User.findOne({ username: req.query.favorited })
+      .select({ favorites: 1 }).lean() : null
   ])
     .then(function(results) {
       var seller = results[0];
@@ -78,7 +80,9 @@ router.get("/", auth.optional, function(req, res, next) {
           .sort({ createdAt: "desc" })
           .exec(),
         Item.count(query).exec(),
-        req.payload ? User.findById(req.payload.id) : null
+        req.payload ? User.findById(req.payload.id)
+          .select({ _id: 1, username: 1, bio: 1, image: 1, following: 1, favorites: 1 })
+          : null
       ]).then(async function(results) {
         var items = results[0];
         var itemsCount = results[1];
@@ -86,7 +90,8 @@ router.get("/", auth.optional, function(req, res, next) {
         return res.json({
           items: await Promise.all(
             items.map(async function(item) {
-              item.seller = await User.findById(item.seller);
+              item.seller = await User.findById(item.seller)
+                .select({ _id: 1, username: 1, bio: 1, image: 1, following: 1 });
               return item.toJSONFor(user);
             })
           ),
