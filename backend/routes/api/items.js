@@ -83,7 +83,7 @@ router.get("/", auth.optional, function(req, res, next) {
           })
           .sort({ createdAt: "desc" })
           .exec(),
-        Item.count(query).exec(),
+        Item.countDocuments(query).exec(),
         // req.payload ? User.findById(req.payload.id)
         //   .select({ _id: 1, username: 1, bio: 1, image: 1, following: 1, favorites: 1 })
         //   : null
@@ -132,6 +132,7 @@ router.get("/", auth.optional, function(req, res, next) {
       //     itemsCount: itemsCount
       //   });
       // });
+
     })
     .catch(next);
 });
