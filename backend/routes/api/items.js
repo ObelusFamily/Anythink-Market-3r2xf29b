@@ -73,65 +73,65 @@ router.get("/", auth.optional, function(req, res, next) {
         query._id = { $in: [] };
       }
 
-      // return Promise.all([
-      //   Item.find(query)
-      //     .limit(Number(limit))
-      //     .skip(Number(offset))
-      //     .populate({
-      //       path: "seller", 
-      //       transform: (seller) => seller.toProfileJSONFor(seller)
-      //     })
-      //     .sort({ createdAt: "desc" })
-      //     .exec(),
-      //   Item.count(query).exec(),
-      //   // req.payload ? User.findById(req.payload.id)
-      //   //   .select({ _id: 1, username: 1, bio: 1, image: 1, following: 1, favorites: 1 })
-      //   //   : null
-      // ]).then(async function(results) {
-      //   var items = results[0];
-      //   var itemsCount = results[1];
-      //   // var user = results[2];
-      //   return res.json({
-      //     // items: await Promise.all(
-      //     //   items.map(async function(item) {
-      //     //     //item.seller = await User.findById(item.seller);
-      //     //     return item.toJSONFor(user);
-      //     //   })
-      //     // ),
-      //     items,
-      //     itemsCount: itemsCount
-      //   });
-      // });
-
       return Promise.all([
         Item.find(query)
           .limit(Number(limit))
           .skip(Number(offset))
-          // .populate({
-          //   path: "seller", 
-          //   transform: (seller) => seller.toProfileJSONFor(seller)
-          // })
+          .populate({
+            path: "seller", 
+            transform: (seller) => seller.toProfileJSONFor(seller)
+          })
           .sort({ createdAt: "desc" })
           .exec(),
         Item.count(query).exec(),
-        req.payload ? User.findById(req.payload.id)
-           .select({ _id: 1, username: 1, bio: 1, image:1, following: 1, favorites: 1 })
-          : null
+        // req.payload ? User.findById(req.payload.id)
+        //   .select({ _id: 1, username: 1, bio: 1, image: 1, following: 1, favorites: 1 })
+        //   : null
       ]).then(async function(results) {
         var items = results[0];
         var itemsCount = results[1];
-        var user = results[2];
+        // var user = results[2];
         return res.json({
-          items: await Promise.all(
-            items.map(async function(item) {
-              item.seller = await User.findById(item.seller)
-                .select({ _id: 1, username: 1, bio: 1, image:1, following: 1, favorites: 1 });
-              return item.toJSONFor(user);
-            })
-          ), 
+          // items: await Promise.all(
+          //   items.map(async function(item) {
+          //     //item.seller = await User.findById(item.seller);
+          //     return item.toJSONFor(user);
+          //   })
+          // ),
+          items,
           itemsCount: itemsCount
         });
       });
+
+      // return Promise.all([
+      //   Item.find(query)
+      //     .limit(Number(limit))
+      //     .skip(Number(offset))
+      //     // .populate({
+      //     //   path: "seller", 
+      //     //   transform: (seller) => seller.toProfileJSONFor(seller)
+      //     // })
+      //     .sort({ createdAt: "desc" })
+      //     .exec(),
+      //   Item.count(query).exec(),
+      //   req.payload ? User.findById(req.payload.id)
+      //      .select({ _id: 1, username: 1, bio: 1, image:1, following: 1, favorites: 1 })
+      //     : null
+      // ]).then(async function(results) {
+      //   var items = results[0];
+      //   var itemsCount = results[1];
+      //   var user = results[2];
+      //   return res.json({
+      //     items: await Promise.all(
+      //       items.map(async function(item) {
+      //         item.seller = await User.findById(item.seller)
+      //           .select({ _id: 1, username: 1, bio: 1, image:1, following: 1, favorites: 1 });
+      //         return item.toJSONFor(user);
+      //       })
+      //     ), 
+      //     itemsCount: itemsCount
+      //   });
+      // });
     })
     .catch(next);
 });
