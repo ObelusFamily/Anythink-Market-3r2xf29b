@@ -55,8 +55,7 @@ ItemSchema.methods.toJSONFor = function(currentLoggedUser) {
     tagList: this.tagList,
     favorited: currentLoggedUser ? currentLoggedUser.isFavorite(this._id) : false,
     favoritesCount: this.favoritesCount,
-    seller: this.seller.toProfileJSONFor(currentLoggedUser),
-    //currentLoggedUser
+    seller: this.seller.toProfileJSONFor(currentLoggedUser)
   };
 };
 
