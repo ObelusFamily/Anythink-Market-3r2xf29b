@@ -44,7 +44,7 @@ ItemSchema.methods.updateFavoriteCount = function() {
   });
 };
 
-ItemSchema.methods.toJSONFor = function(user) {
+ItemSchema.methods.toJSONFor = function(currentLoggedUser) {
   return {
     slug: this.slug,
     title: this.title,
@@ -53,9 +53,10 @@ ItemSchema.methods.toJSONFor = function(user) {
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
     tagList: this.tagList,
-    favorited: user ? user.isFavorite(this._id) : false,
+    favorited: currentLoggedUser ? currentLoggedUser.isFavorite(this._id) : false,
     favoritesCount: this.favoritesCount,
-    seller: this.seller.toProfileJSONFor(user)
+    seller: this.seller.toProfileJSONFor(currentLoggedUser),
+    //currentLoggedUser
   };
 };
 

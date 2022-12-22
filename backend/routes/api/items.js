@@ -78,30 +78,129 @@ router.get("/", auth.optional, function(req, res, next) {
           .limit(Number(limit))
           .skip(Number(offset))
           .populate({
-            path: "seller", 
-            transform: (seller) => seller.toProfileJSONFor(seller)
+            path: "seller"
           })
           .sort({ createdAt: "desc" })
           .exec(),
         Item.countDocuments(query).exec(),
-        // req.payload ? User.findById(req.payload.id)
-        //   .select({ _id: 1, username: 1, bio: 1, image: 1, following: 1, favorites: 1 })
-        //   : null
+        req.payload ? User.findById(req.payload.id) // current logged user
+          .select({ _id: 1, username: 1, bio: 1, image: 1, following: 1, favorites: 1 })
+          : null
       ]).then(async function(results) {
         var items = results[0];
         var itemsCount = results[1];
-        // var user = results[2];
+        var currentLoggedUser = results[2];
         return res.json({
-          // items: await Promise.all(
-          //   items.map(async function(item) {
-          //     //item.seller = await User.findById(item.seller);
-          //     return item.toJSONFor(user);
-          //   })
-          // ),
-          items,
+          items: await Promise.all(
+            items.map(async function(item) {
+              //item.seller = await User.findById(item.seller);
+              return item.toJSONFor(currentLoggedUser);
+            })
+          ),
+          // items,
           itemsCount: itemsCount
         });
       });
+
+      // return Promise.all([
+      //   Item.aggregate([
+      //     {
+      //       "$lookup" : {
+      //           "from" : "users",
+      //           "localField" : "seller",
+      //           "foreignField" : "_id",
+      //           "as" : "seller"
+      //       }
+      //     }, 
+      //     {
+      //         "$lookup" : {
+      //             "from" : "users",
+      //             "localField" : "following",
+      //             "foreignField" : "_id",
+      //             "as" : "following"
+      //         }
+      //     }, 
+      //     {
+      //         "$lookup" : {
+      //             "from" : "items",
+      //             "localField" : "favorites",
+      //             "foreignField" : "_id",
+      //             "as" : "favorites"
+      //         }
+      //     }, 
+      //     {
+      //         "$project" : {
+      //             "slug" : 1.0,
+      //             "title" : 1.0,
+      //             "description" : 1.0,
+      //             "image" : 1.0,
+      //             "createdAt" : 1.0,
+      //             "updatedAt" : 1.0,
+      //             "tagList" : 1.0,
+      //             "favorited" : {
+      //                 "$in" : [
+      //                     "_id",
+      //                     "$favorites"
+      //                 ]
+      //             },
+      //             "favoritesCount" : 1.0,
+      //             "seller" : {
+      //                 "username" : 1.0,
+      //                 "bio" : 1.0,
+      //                 "image" : {
+      //                     "$ifNull" : [
+      //                         "$image",
+      //                         "https://static.productionready.io/images/smiley-cyrus.jpg"
+      //                     ]
+      //                 },
+      //                 "following" : {
+      //                     "$in" : [
+      //                         "_id",
+      //                         "$following"
+      //                     ]
+      //                 }
+      //             }
+      //         }
+      //     },
+      //     {
+      //       "$sort" : {
+      //           "createdAt" : -1.0
+      //       }
+      //     }, 
+      //     {
+      //         "$skip" : Number(offset)
+      //     }, 
+      //     {
+      //         "$limit" : Number(limit)
+      //     }, 
+      //   ])
+      //     // .limit(Number(limit))
+      //     // .skip(Number(offset))
+      //     // .populate({
+      //     //   path: "seller", 
+      //     //   transform: (seller) => seller.toProfileJSONFor(seller)
+      //     // })
+      //     // .sort({ createdAt: "desc" })
+      //     .exec(),
+      //   Item.countDocuments(query).exec(),
+      //   // req.payload ? User.findById(req.payload.id)
+      //   //   .select({ _id: 1, username: 1, bio: 1, image: 1, following: 1, favorites: 1 })
+      //   //   : null
+      // ]).then(async function(results) {
+      //   var items = results[0];
+      //   var itemsCount = results[1];
+      //   // var user = results[2];
+      //   return res.json({
+      //     // items: await Promise.all(
+      //     //   items.map(async function(item) {
+      //     //     //item.seller = await User.findById(item.seller);
+      //     //     return item.toJSONFor(user);
+      //     //   })
+      //     // ),
+      //     items,
+      //     itemsCount: itemsCount
+      //   });
+      // });
 
       // return Promise.all([
       //   Item.find(query)

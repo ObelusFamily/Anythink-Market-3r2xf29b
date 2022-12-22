@@ -79,13 +79,13 @@ UserSchema.methods.toAuthJSON = function() {
   };
 };
 
-UserSchema.methods.toProfileJSONFor = function(user) {
+UserSchema.methods.toProfileJSONFor = function(currentLoggedUser) {
   return {
     username: this.username,
     bio: this.bio,
     image:
       this.image || "https://static.productionready.io/images/smiley-cyrus.jpg",
-    following: user ? user.isFollowing(this._id) : false
+    following: currentLoggedUser ? currentLoggedUser.isFollowing(this._id) : false
   };
 };
 
